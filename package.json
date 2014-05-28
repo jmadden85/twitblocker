@@ -1,0 +1,21 @@
+{
+  "name": "twitDelete",
+  "version": "0.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "~3.6.2",
+    "http": "~0.0.0",
+    "twit": "~1.1.15",
+    "url": "~0.10.1"
+  },
+  "devDependencies": {
+    "gulp": "~3.6.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
