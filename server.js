@@ -1,20 +1,10 @@
 var Twit = require('twit');
 var http = require('http');
 var url = require('url');
+var config = require('./config');
 
-var tTraderoom = new Twit({
-    consumer_key:         'xxx',
-    consumer_secret:      'xxx',
-    access_token:         'xxx',
-    access_token_secret:  'xxx'
-});
-
-var tNS = new Twit({
-    consumer_key:         'xxx',
-    consumer_secret:      'xxx',
-    access_token:         'xxx',
-    access_token_secret:  'xxx'
-});
+var tTraderoom = new Twit(config.config.tTraderoom);
+var tNS = new Twit(config.config.tNS);
 
 var server = http.createServer(function (req, res) {
     var newReq = url.parse(req.url, true);
@@ -28,7 +18,7 @@ var server = http.createServer(function (req, res) {
                 break;
             case '/frienduser':
                 friendUser(newReq.query.screen_name, 'account');
-            default
+            default:
                 break;
         }
     }
