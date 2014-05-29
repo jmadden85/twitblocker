@@ -29,4 +29,11 @@ function blockUser (user, method) {
     });
 };
 
+function friendUser (user) {
+    T.post('friendships/create', {
+        screen_name: user,
+        follow: true
+    });
+};
+
 server.listen(3000);
