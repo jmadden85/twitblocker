@@ -28,7 +28,7 @@ var server = http.createServer(function (req, res) {
 
 function blockUser (user, method, account) {
     var block = method === 'block' ? 'blocks/create' : 'blocks/destroy';
-    var thisAccount = account === 'traderoom' ? tTraderoom : tNs;
+    var thisAccount = account === 'traderoom' ? tTraderoom : tNS;
     thisAccount.post(block,  {
         screen_name: user
     },  function (err, data, response) {
@@ -37,7 +37,7 @@ function blockUser (user, method, account) {
 };
 
 function friendUser (user, account) {
-    var thisAccount = account === 'traderoom' ? tTraderoom : tNs;
+    var thisAccount = account === 'traderoom' ? tTraderoom : tNS;
     thisAccount.post('friendships/create', {
         screen_name: user,
         follow: true
