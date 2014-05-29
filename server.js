@@ -17,7 +17,7 @@ var server = http.createServer(function (req, res) {
                 blockUser(newReq.query.screen_name, 'unblock');
                 break;
             case '/frienduser':
-                friendUser(newReq.query.screen_name, 'account');
+                friendUser(newReq.query.screen_name, newReq.query.account);
             default:
                 break;
         }
