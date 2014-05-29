@@ -26,9 +26,10 @@ var server = http.createServer(function (req, res) {
     res.end();
 });
 
-function blockUser (user, method) {
+function blockUser (user, method, account) {
     var block = method === 'block' ? 'blocks/create' : 'blocks/destroy';
-    tTraderoom.post(block,  {
+    var thisAccount = account === 'traderoom' ? tTraderoom : tNs;
+    thisAccount.post(block,  {
         screen_name: user
     },  function (err, data, response) {
         console.log(block);
