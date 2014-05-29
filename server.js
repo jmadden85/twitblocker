@@ -31,7 +31,7 @@ function blockUser (user, method) {
     tTraderoom.post(block,  {
         screen_name: user
     },  function (err, data, response) {
-        console.log(data);
+        console.log(block);
     });
 };
 
@@ -40,6 +40,8 @@ function friendUser (user, account) {
     thisAccount.post('friendships/create', {
         screen_name: user,
         follow: true
+    }, function (err, data, response) {
+        console.log('friended');
     });
 };
 
