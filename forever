@@ -1,0 +1,87 @@
+#!/bin/bash
+#
+### BEGIN INIT INFO
+# Provides:             Course App
+# Required-Start        $syslog $remote_fs
+# Provides:             my-application
+# Required-Start:       $syslog $remote_fs
+# Required-Stop:        $syslog $remote_fs
+# Should-Start:         $local_fs
+# Should-Stop:          $local_fs
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 1 6
+# Short-Description:    My Application
+# Description:          My Application
+### END INIT INFO
+
+#description: service configuration for forever running app.js
+
+#start on started mongodb 
+
+NAME=ClassRoomApp
+NODE_BIN_DIR="/home/node/local/node/bin"
+NODE_PATH="/vol01/web/iin/node_modules"
+APPLICATION_DIRECTORY="/vol01/web/iin"
+APPLICATION_START="app.js"
+LOG="/vol01/logs/iin.log"
+ELOG="/vol01/logs/err.log"
+OLOG="/vol01/logs/out.log"
+NODE_ENV="testing"
+PIDFILE="/home/ubuntu/.forever/foreverapp.pid"
+AWS_S3_BUCKET="pdf-dev"
+
+PATH=$NODE_BIN_DIR:$PATH
+export NODE_PATH=$NODE_PATH
+export NODE_ENV=$NODE_ENV
+start() {
+    cd $APPLICATION_DIRECTORY
+    #echo "Starting $NAME"
+    echo "sudo -u ubuntu forever --pidFile $PIDFILE --sourceDir $APPLICATION_DIRECTORY -a -l $LOG -e $ELOG --minUptime 5000 --spinSleepTime 2000 start $APPLICATION_START &"
+    sudo -u ubuntu NODE_ENV="testing" forever --pidFile $PIDFILE --sourceDir $APPLICATION_DIRECTORY -a -l $LOG -e $ELOG --minUptime 5000 --spinSleepTime 2000 start $APPLICATION_START &
+    echo $? " *****log"
+    RETVAL=$?
+}
+
+stop() {
+    if [ -f $PIDFILE ]; then
+        echo "Shutting down $NAME"
+        sudo -u ubuntu forever stop $APPLICATION_START
+        rm -f $PIDFILE
+        RETVAL=$?
+    else
+        echo "$NAME is not running."
+        RETVAL=0
+    fi
+}
+
+restart() {
+    echo "Restarting $NAME"
+    stop
+    start
+}
+
+status() {
+    echo "Status for $NAME:"
+    forever list
+    RETVAL=$?
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        echo "Usage: {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
+exit $RETVAL
