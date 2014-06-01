@@ -11,10 +11,10 @@ var server = http.createServer(function (req, res) {
     if (req.method === 'POST') {
         switch (newReq.pathname) {
             case '/blockuser':
-                blockUser(newReq.query.screen_name, 'block');
+                blockUser(newReq.query.screen_name, 'block', newReq.query.account);
                 break;
             case '/unblockuser':
-                blockUser(newReq.query.screen_name, 'unblock');
+                blockUser(newReq.query.screen_name, 'unblock', newReq.query.account);
                 break;
             case '/frienduser':
                 friendUser(newReq.query.screen_name, newReq.query.account);
