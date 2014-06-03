@@ -30,7 +30,7 @@ var server = http.createServer(function (req, res) {
                     console.log(err);
                 } else {
                     data = data.replace(/\n+/g, '<br />');
-                    res.send(data);
+                    res.write(data, 'utf8');
                 }
             });
           break;
