@@ -10,6 +10,7 @@ var tNS = new Twit(config.config.tNS);
 var server = http.createServer(function (req, res) {
     var newReq = url.parse(req.url, true);
     if (req.method === 'POST') {
+        res.writeHead(200);
         switch (newReq.pathname) {
             case '/blockuser':
                 blockUser(newReq.query.screen_name, 'block', newReq.query.account);
@@ -19,9 +20,11 @@ var server = http.createServer(function (req, res) {
                 break;
             case '/frienduser':
                 friendUser(newReq.query.screen_name, newReq.query.account);
+                break;
             default:
                 break;
         }
+        res.end();
     } else if (req.method === 'GET') {
       switch (newReq.pathname) {
         case '/logs':
@@ -30,7 +33,8 @@ var server = http.createServer(function (req, res) {
                     console.log(err);
                 } else {
                     data = data.replace(/\n+/g, '<br />');
-                    res.write(data, 'utf8');
+                    res.writeHead(200, {"Content-Type": "text/html"});
+                    res.end(data, "utf-8");
                 }
             });
           break;
@@ -38,8 +42,6 @@ var server = http.createServer(function (req, res) {
           break;
       }
     }
-    res.writeHead(200);
-    res.end();
 });
 
 function blockUser (user, method, account) {
