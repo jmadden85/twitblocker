@@ -2,6 +2,7 @@ var Twit = require('twit');
 var http = require('http');
 var url = require('url');
 var config = require('./config');
+var fs = require('fs');
 
 var tTraderoom = new Twit(config.config.tTraderoom);
 var tNS = new Twit(config.config.tNS);
@@ -21,6 +22,21 @@ var server = http.createServer(function (req, res) {
             default:
                 break;
         }
+    } else if (req.method === 'GET') {
+      switch (newReq.pathname) {
+        case '/logs':
+            fs.readFile('/home/joe/twitblocker/logs/out.log', 'utf8', function (err, data) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    data = data.replace(/\n+/g, '<br />');
+                    res.send(data);
+                }
+            });
+          break;
+        default:
+          break;
+      }
     }
     res.writeHead(200);
     res.end();
